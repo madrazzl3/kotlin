@@ -19,7 +19,7 @@ private fun WasmOp.isInCfgNode() = when (this) {
 }
 
 private fun WasmOp.pureStacklessInstruction() = when (this) {
-    WasmOp.REF_NULL, WasmOp.I32_CONST, WasmOp.I64_CONST, WasmOp.F32_CONST, WasmOp.F64_CONST, WasmOp.LOCAL_GET, WasmOp.GLOBAL_GET -> true
+    WasmOp.REF_NULL, WasmOp.I32_CONST, WasmOp.I64_CONST, WasmOp.F32_CONST, WasmOp.F64_CONST, WasmOp.LOCAL_GET, WasmOp.GLOBAL_GET, WasmOp.V128_CONST -> true
     else -> false
 }
 

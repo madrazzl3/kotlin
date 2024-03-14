@@ -13,6 +13,8 @@ object BinaryenConfig {
         "--enable-exception-handling",
         "--enable-bulk-memory",  // For array initialization from data sections
 
+        "--enable-simd",
+
         // Other options
         "--enable-nontrapping-float-to-int",
         // It's turned out that it's not safe

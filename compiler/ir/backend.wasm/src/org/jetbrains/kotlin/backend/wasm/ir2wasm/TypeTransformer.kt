@@ -97,6 +97,8 @@ class WasmTypeTransformer(
 
                 if (klass.isExternal) {
                     WasmExternRef
+                } else if (isBuiltInWasmVec128Type(this, klass)) {
+                    WasmV128
                 } else if (isBuiltInWasmRefType(this)) {
                     when (val name = klass.name.identifier) {
                         "anyref" -> WasmAnyRef
@@ -113,6 +115,11 @@ class WasmTypeTransformer(
                 }
             }
         }
+}
+
+fun isBuiltInWasmVec128Type(type: IrType, klass: IrClass): Boolean {
+    return type.classOrNull?.owner?.packageFqName == FqName("kotlin.wasm.internal.vectypes")
+            && klass.name.identifier == "Vec128"
 }
 
 fun isBuiltInWasmRefType(type: IrType): Boolean {

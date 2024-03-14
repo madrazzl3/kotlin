@@ -400,12 +400,14 @@ class BodyGenerator(
 
         call.dispatchReceiver?.let { generateExpression(it) }
         call.extensionReceiver?.let { generateExpression(it) }
-        for (i in 0 until call.valueArgumentsCount) {
-            val valueArgument = call.getValueArgument(i)
-            if (valueArgument == null) {
-                generateDefaultInitializerForType(context.transformType(function.valueParameters[i].type), body)
-            } else {
-                generateExpression(valueArgument)
+        if (!function.hasWasmIntrinsicArgumentsAnnotation()) {
+            for (i in 0 until call.valueArgumentsCount) {
+                val valueArgument = call.getValueArgument(i)
+                if (valueArgument == null) {
+                    generateDefaultInitializerForType(context.transformType(function.valueParameters[i].type), body)
+                } else {
+                    generateExpression(valueArgument)
+                }
             }
         }
 
@@ -984,8 +986,35 @@ class BodyGenerator(
                     )
                     body.buildInstr(op, location, *immediates)
                 }
-                else ->
-                    error("Op $opString is unsupported")
+                else -> {
+                    if (op == WasmOp.V128_CONST) {
+                        val callArgs = call.valueArguments
+
+                        if (callArgs.size != op.immediates.size)
+                            error("Incorrect parameters count provided for op $opString")
+
+                        val immediates = callArgs.map { irExpression ->
+                            when (irExpression) {
+                                is IrConst<*> -> {
+                                    when (val kind = irExpression.kind) {
+                                        is IrConstKind.Byte -> kind.valueOf(irExpression)
+                                        else -> null
+                                    }
+                                }
+                                else -> null
+                            }
+                        }.map { constByte ->
+                            if (constByte == null)
+                                error("Arguments should be constant of type Byte")
+
+                            WasmImmediate.ConstU8(constByte.toUByte())
+                        }.toTypedArray()
+
+                        body.buildInstr(op, location, *immediates)
+                    } else {
+                        error("Op $opString is unsupported")
+                    }
+                }
             }
             return true
         }

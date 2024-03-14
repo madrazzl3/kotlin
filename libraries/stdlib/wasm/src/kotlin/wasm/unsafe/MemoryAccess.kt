@@ -7,6 +7,7 @@ package kotlin.wasm.unsafe
 
 import kotlin.wasm.internal.WasmOp
 import kotlin.wasm.internal.implementedAsIntrinsic
+import kotlin.wasm.internal.vectypes.Vec128
 
 /**
  * Linear memory pointer type.
@@ -51,6 +52,10 @@ public value class Pointer public constructor(public val address: UInt) {
     public fun loadLong(): Long =
         implementedAsIntrinsic
 
+    @WasmOp(WasmOp.V128_L0AD)
+    public fun loadV128(): Vec128 =
+        implementedAsIntrinsic
+
     /** Store a Byte (8 bit) [value] */
     @Suppress("UNUSED_PARAMETER")
     @WasmOp(WasmOp.I32_STORE8)
@@ -73,5 +78,10 @@ public value class Pointer public constructor(public val address: UInt) {
     @Suppress("UNUSED_PARAMETER")
     @WasmOp(WasmOp.I64_STORE)
     public fun storeLong(value: Long): Unit =
+        implementedAsIntrinsic
+
+    @Suppress("UNUSED_PARAMETER")
+    @WasmOp(WasmOp.V128_STORE)
+    public fun storeV128(value: Vec128): Unit =
         implementedAsIntrinsic
 }

@@ -9,6 +9,8 @@
 
 package kotlin.wasm.internal
 
+import kotlin.wasm.internal.vectypes.Vec128
+
 @WasmOp(WasmOp.UNREACHABLE)
 internal fun wasm_unreachable(): Nothing =
     implementedAsIntrinsic
@@ -493,4 +495,19 @@ internal fun wasm_i64_popcnt(a: Long): Long =
 @PublishedApi
 @WasmOp(WasmOp.I64_CTZ)
 internal fun wasm_i64_ctz(a: Long): Long =
+    implementedAsIntrinsic
+
+@PublishedApi
+@WasmOp(WasmOp.V128_CONST)
+@WasmIntrinsicArguments
+internal fun wasm_v128_const(
+    b0: UByte, b1: UByte, b2: UByte, b3: UByte,
+    b4: UByte, b5: UByte, b6: UByte, b7: UByte,
+    b8: UByte, b9: UByte, b10: UByte, b11: UByte,
+    b12: UByte, b13: UByte, b14: UByte, b15: UByte
+): Vec128 = implementedAsIntrinsic
+
+@PublishedApi
+@WasmOp(WasmOp.I8X16_ADD)
+internal fun wasm_i8x16_add(a: Vec128, b: Vec128): Vec128 =
     implementedAsIntrinsic

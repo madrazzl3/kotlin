@@ -1,5 +1,5 @@
 /*
- * Copyright 2010-2023 JetBrains s.r.o. and Kotlin Programming Language contributors.
+ * Copyright 2010-2024 JetBrains s.r.o. and Kotlin Programming Language contributors.
  * Use of this source code is governed by the Apache 2.0 license that can be found in the license/LICENSE.txt file.
  */
 
@@ -258,5 +258,9 @@ internal annotation class WasmOp(val name: String) {
         const val PSEUDO_COMMENT_PREVIOUS_INSTR = "PSEUDO_COMMENT_PREVIOUS_INSTR"
         const val PSEUDO_COMMENT_GROUP_START = "PSEUDO_COMMENT_GROUP_START"
         const val PSEUDO_COMMENT_GROUP_END = "PSEUDO_COMMENT_GROUP_END"
+        const val V128_CONST = "V128_CONST"
+        const val V128_L0AD = "V128_L0AD"
+        const val V128_STORE = "V128_STORE"
+        const val I8X16_ADD = "I8X16_ADD"
     }
 }

@@ -391,6 +391,12 @@ enum class WasmOp(
     PSEUDO_COMMENT_PREVIOUS_INSTR("<comment-single>", WASM_OP_PSEUDO_OPCODE),
     PSEUDO_COMMENT_GROUP_START("<comment-group-start>", WASM_OP_PSEUDO_OPCODE),
     PSEUDO_COMMENT_GROUP_END("<comment-group-end>", WASM_OP_PSEUDO_OPCODE),
+
+    // SIMD
+    V128_CONST("v128.const", 0xFD_0C, List(16) { CONST_U8 }),
+    V128_L0AD("v128.load", 0xFD_00, MEM_ARG),
+    V128_STORE("v128.store", 0xFD_0B, MEM_ARG),
+    I8X16_ADD("i8x16.add", 0xFD_6E)
     ;
 
     constructor(mnemonic: String, opcode: Int, vararg immediates: WasmImmediateKind) : this(mnemonic, opcode, immediates.toList())
